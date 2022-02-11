@@ -18,10 +18,12 @@ export const setUserInfo = createCustomAction('auth/setUserInfo', (data: IUser) 
 
 const actions = { setAuthorization, setUserInfo };
 
+//Tạo action type(?)
 type Action = ActionType<typeof actions>;
 
 export default function reducer(state: AuthState = {}, action: Action) {
   switch (action.type) {
+    //getType trả về tham số đầu của createCustomAction(?)
     case getType(setAuthorization):
       return { ...state, auth: action.data };
     case getType(setUserInfo):

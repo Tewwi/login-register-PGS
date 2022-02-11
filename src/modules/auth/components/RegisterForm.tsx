@@ -206,11 +206,12 @@ const RegisterFrom = (props: Props) => {
         <select
           className="form-select"
           aria-label="select"
+          defaultValue={undefined}
           onChange={(e) => {
             setFormValues({ ...formValues, gender: e.target.value });
           }}
         >
-          <option value={undefined}>Chọn giới tính</option>
+          <option value={''}>Chọn giới tính</option>
           {genderFieldLabel?.map((item, index) => {
             return (
               <option value={item.value} key={index}>
