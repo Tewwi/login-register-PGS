@@ -13,7 +13,7 @@ import { IRegisterParam } from '../../../models/auth';
 import { ROUTES } from '../../../configs/routes';
 import { replace } from 'connected-react-router';
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -104,4 +104,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
