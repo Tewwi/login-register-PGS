@@ -16,7 +16,11 @@ export const setPendingList = createCustomAction('list/setPendingList', (data: I
   data,
 }));
 
-const actions = { setListItemData, setPendingList };
+export const setSingleItem = createCustomAction('list/setSingleItem', (data: { id: number; value: string }) => ({
+  data,
+}));
+
+const actions = { setListItemData, setPendingList, setSingleItem };
 
 //Tạo action type(?)
 type Action = ActionType<typeof actions>;
@@ -28,6 +32,17 @@ export default function reducer(state: ListState = {}, action: Action) {
       return { ...state, list: action.data };
     case getType(setPendingList):
       return { ...state, pendingList: action.data };
+    case getType(setSingleItem): {
+      //console.log(state);
+      const { id, value } = action.data;
+      const newPendingList = state.list?.map((item) => {
+        if (+item.id === +id) {
+          item.title = value;
+        }
+        return item;
+      });
+      return { ...state, list: newPendingList };
+    }
     default:
       return state;
   }

@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppState } from '../../../redux/reducer';
 import { Action } from 'redux';
 import { fetchThunk } from '../../common/redux/thunk';
 import { API_PATHS } from '../../../configs/api';
-import { RESPONSE_STATUS_SUCCESS } from '../../../utils/httpResponseCode';
 import { getErrorMessageResponse } from '../../../utils';
-import { setListItemData } from '../redux/listReducer';
+import { setListItemData, setPendingList } from '../redux/listReducer';
 import ListItem from '../components/ListItem';
 
 const ListPage = () => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
+  const [tempListItem, setTempListItem] = useState(useSelector((state: AppState) => state.list.list));
+  const listItem = useSelector((state: AppState) => state.list.list);
+  //console.log(tempListItem);
+  console.log('temp', tempListItem);
+  console.log('store', listItem);
+
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -21,16 +26,14 @@ const ListPage = () => {
 
     const json = await dispatch(fetchThunk(API_PATHS.list, 'get'));
 
-    // console.log(json);
     setLoading(false);
 
-    //kiem tra json nhan lai de xu ly
     if (json) {
-      dispatch(setListItemData(json));
+      dispatch(setListItemData(json.slice(0, 5)));
+      //dispatch(setPendingList(json.slice(0, 5)));
       return;
     }
 
-    //thong tin sai thi dat thong bao loi
     setErrorMessage(getErrorMessageResponse(json));
   }, [dispatch]);
 
@@ -38,27 +41,50 @@ const ListPage = () => {
     fetchListData();
   }, [fetchListData]);
 
+  useEffect(() => {
+    console.log('aaa');
+  }, [listItem]);
+
   return (
     <div
       className="container"
       style={{
         height: '90vh',
         display: 'flex',
+        width: '60%',
         flexDirection: 'column',
         margin: '30px auto',
       }}
     >
       <div className="d-flex flex-row-reverse mb-4">
         <div className="colum-md-auto">
-          <button className="btn btn-primary" style={{ margin: '0px 15px' }}>
+          <button
+            className="btn btn-primary"
+            style={{ margin: '0px 15px' }}
+            onClick={() => {
+              if (tempListItem) {
+                dispatch(setListItemData(tempListItem));
+                //setTempListItem(listItem);
+              }
+            }}
+          >
             Reset
           </button>
         </div>
         <div className="colum-md-auto">
-          <button className="btn btn-primary">Confirm</button>
+          <button
+            className="btn btn-primary"
+            onClick={() => {
+              if (tempListItem) {
+                setTempListItem(listItem);
+              }
+            }}
+          >
+            Confirm
+          </button>
         </div>
       </div>
-      {loading === false && <ListItem isLoading={loading} errorMessage={errorMessage} />}
+      {loading === false && <ListItem listItem={tempListItem} isLoading={loading} errorMessage={errorMessage} />}
     </div>
   );
 };

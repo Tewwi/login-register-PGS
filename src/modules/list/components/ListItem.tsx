@@ -1,23 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { AppState } from '../../../redux/reducer';
+import React from 'react';
 import { Iitem } from '../../../models/list';
+import { AppState } from '../../../redux/reducer';
 import Item from './Item';
 
 interface Props {
   isLoading: boolean;
   errorMessage: string;
+  listItem?: Iitem[];
 }
 
 const ListItem = (props: Props) => {
-  const listItem = useSelector((state: AppState) => state.list.list);
-  // console.log(listItem);
-
+  const { listItem } = props;
   return (
     <div style={{ height: '100%', overflowY: 'auto' }}>
       <div>
-        {listItem?.map((item) => {
-          return <Item key={item.id} item={item} />;
+        {listItem?.map((item, index) => {
+          return (
+            <div key={index}>
+              <Item item={item} />
+            </div>
+          );
         })}
       </div>
     </div>
