@@ -1,9 +1,5 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { Iitem } from '../../../models/list';
-import { ThunkDispatch } from 'redux-thunk';
-import { useDispatch } from 'react-redux';
-import { AppState } from '../../../redux/reducer';
-import { Action } from 'redux';
 
 interface Props {
   item: Iitem;
@@ -13,22 +9,17 @@ interface Props {
 const Item = (prop: Props) => {
   const { id, title, thumbnailUrl } = prop.item;
   const setTitle = prop.setTitle;
-  //const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const [isEdit, setIsEdit] = React.useState(false);
   const [text, setText] = React.useState(title);
   const color = id % 2 === 0 ? 'grey' : 'white';
   const onBlur = React.useCallback(
     (text: string) => {
       if (id && text) {
-        console.log('title', title);
-
         setTitle(id, text);
-        setText(title);
         setIsEdit(false);
       }
-      console.log('change');
     },
-    [setTitle, id, title],
+    [setTitle, id],
   );
   React.useEffect(() => {
     setText(title);
@@ -80,4 +71,4 @@ const Item = (prop: Props) => {
   );
 };
 
-export default memo(Item);
+export default Item;
