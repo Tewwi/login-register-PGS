@@ -43,7 +43,10 @@ const ListPage = () => {
 
   useEffect(() => {
     fetchListData();
-  }, [fetchListData]);
+    if (errorMessage) {
+      console.log(errorMessage);
+    }
+  }, [fetchListData, errorMessage]);
 
   return (
     <div

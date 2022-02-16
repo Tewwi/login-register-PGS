@@ -15,5 +15,6 @@
   "userName": "Tên người dùng",
   "signUp": "Đăng kí",
   "region": "Quốc gia",
-  "state": "Thành phố"
+  "state": "Thành phố",
+  "logout": "Đăng xuất"
 }

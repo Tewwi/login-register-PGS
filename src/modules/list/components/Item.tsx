@@ -55,7 +55,7 @@ const Item = (prop: Props) => {
       />
       <div style={{ flex: '1' }}>
         {!isEdit && (
-          <h4 className="list-text-title" style={{ color: color }} onClick={() => setIsEdit(true)}>
+          <h4 className="list-text-title" style={{ color: color, cursor: 'text' }} onClick={() => setIsEdit(true)}>
             {text}
           </h4>
         )}

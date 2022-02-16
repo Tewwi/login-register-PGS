@@ -32,7 +32,7 @@ const LoginPage = () => {
       );
 
       setLoading(false);
-
+      console.log(values.rememberMe);
       //kiem tra json nhan lai de xu ly
       if (json?.code === RESPONSE_STATUS_SUCCESS) {
         dispatch(setUserInfo(json.data));
