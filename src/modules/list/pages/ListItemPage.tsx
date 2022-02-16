@@ -45,12 +45,6 @@ const ListPage = () => {
     fetchListData();
   }, [fetchListData]);
 
-  useEffect(() => {
-    if (!tempListItem) {
-      console.log('aaa');
-      setTempListItem(listItem);
-    }
-  }, [listItem, tempListItem]);
   return (
     <div
       className="container"
