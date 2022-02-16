@@ -5,11 +5,7 @@ import { AppState } from '../../../redux/reducer';
 interface Props {}
 
 const HomePage = (props: Props) => {
-  const { user } = useSelector((state: AppState) => ({
-    user: state.profile.user,
-  }));
-
-  return <div>Helu {user?.name}</div>;
+  return <div>Home Page</div>;
 };
 
 export default HomePage;
