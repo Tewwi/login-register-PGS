@@ -17,17 +17,11 @@ const ListPage = () => {
     };
   });
   const [tempListItem, setTempListItem] = useState(listItem);
+  // console.log('state', tempListItem);
+  // console.log('store', listItem);
 
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
-  const handleChangeTitle = (id: number, value: string) => {
-    if (tempListItem) {
-      const newItems = [...tempListItem];
-      const cloneItem = { ...newItems[+id - 1], title: value };
-      newItems[+id - 1] = cloneItem;
-      setTempListItem(newItems);
-    }
-  };
 
   const fetchListData = React.useCallback(async () => {
     setErrorMessage('');
@@ -38,11 +32,13 @@ const ListPage = () => {
     setLoading(false);
 
     if (json) {
+      setTempListItem(json);
       dispatch(setListItemData(json));
       return;
     }
 
     setErrorMessage(getErrorMessageResponse(json));
+    return;
   }, [dispatch]);
 
   useEffect(() => {
@@ -50,55 +46,60 @@ const ListPage = () => {
   }, [fetchListData]);
 
   useEffect(() => {
-    if (listItem) {
+    if (!tempListItem) {
+      console.log('aaa');
       setTempListItem(listItem);
     }
-  }, [listItem]);
-
+  }, [listItem, tempListItem]);
   return (
     <div
       className="container"
       style={{
         height: '90vh',
         display: 'flex',
-        width: '60%',
+        width: '80%',
         flexDirection: 'column',
         margin: '30px auto',
       }}
     >
-      <div className="d-flex flex-row-reverse mb-4">
-        <div className="colum-md-auto">
-          <button
-            className="btn btn-primary"
-            style={{ margin: '0px 15px' }}
-            onClick={() => {
-              if (tempListItem && listItem) {
-                setTempListItem([...listItem]);
-              }
-            }}
-          >
-            Reset
-          </button>
-        </div>
-        <div className="colum-md-auto">
-          <button
-            className="btn btn-primary"
-            onClick={() => {
-              if (tempListItem) {
-                dispatch(setListItemData([...tempListItem]));
-              }
-            }}
-          >
-            Confirm
-          </button>
-        </div>
-      </div>
-      {loading && (
+      {loading ? (
         <div className="spinner-border" role="status" style={{ margin: 'auto' }}>
           <span className="visually-hidden">Loading...</span>
         </div>
+      ) : (
+        <div>
+          <div className="d-flex flex-row-reverse mb-4">
+            <div className="colum-md-auto">
+              <button
+                className="btn btn-primary"
+                style={{ margin: '0px 15px' }}
+                onClick={() => {
+                  if (tempListItem) {
+                    console.log('reset');
+                    dispatch(setListItemData([...tempListItem]));
+                  }
+                }}
+              >
+                Reset
+              </button>
+            </div>
+            <div className="colum-md-auto">
+              <button
+                className="btn btn-primary"
+                onClick={() => {
+                  if (tempListItem && listItem) {
+                    console.log('confirm');
+                    setTempListItem([...listItem]);
+                  }
+                }}
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+          <ListItem listItem={listItem} />
+        </div>
       )}
-      {loading === false && <ListItem listItem={tempListItem} handleChangeTitle={handleChangeTitle} />}
     </div>
   );
 };

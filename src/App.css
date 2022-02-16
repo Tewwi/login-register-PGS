@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+
+.list-text-title {
+  padding: 5px 5px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  margin: 5px 0px;
+}
+
+.list-text-title:hover {
+  border: 1px solid #6a9fee;
+}

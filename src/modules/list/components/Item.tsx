@@ -1,27 +1,33 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Iitem } from '../../../models/list';
+import { useDispatch } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { AppState } from '../../../redux/reducer';
+import { Action } from 'redux';
+import { setSingleItem } from '../redux/listReducer';
 
 interface Props {
   item: Iitem;
-  setTitle(id: number, value: string): void;
 }
 
 const Item = (prop: Props) => {
+  const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const { id, title, thumbnailUrl } = prop.item;
-  const setTitle = prop.setTitle;
   const [isEdit, setIsEdit] = React.useState(false);
   const [text, setText] = React.useState(title);
-  const color = id % 2 === 0 ? 'grey' : 'white';
+  const bgColor = id % 2 === 0 ? 'grey' : 'white';
+  const color = id % 2 === 0 ? 'white' : 'black';
   const onBlur = React.useCallback(
     (text: string) => {
       if (id && text) {
-        setTitle(id, text);
+        dispatch(setSingleItem({ id: +id, value: text }));
         setIsEdit(false);
       }
     },
-    [setTitle, id],
+    [dispatch, id],
   );
   React.useEffect(() => {
+    // console.log('title change');
     setText(title);
   }, [title]);
 
@@ -32,11 +38,11 @@ const Item = (prop: Props) => {
         borderRadius: '3px',
         width: '100%',
         margin: 'auto',
-        backgroundColor: color,
+        backgroundColor: bgColor,
       }}
     >
       <img
-        className="mx-3"
+        className="mx-3 rounded-circle"
         src={thumbnailUrl}
         alt="a"
         style={{
@@ -48,11 +54,15 @@ const Item = (prop: Props) => {
         }}
       />
       <div style={{ flex: '1' }}>
-        {!isEdit && <h4 onClick={() => setIsEdit(true)}>{text}</h4>}
+        {!isEdit && (
+          <h4 className="list-text-title" style={{ color: color }} onClick={() => setIsEdit(true)}>
+            {text}
+          </h4>
+        )}
         {isEdit && (
           <input
             type="text"
-            style={{ width: '95%', borderColor: '#79CBFA' }}
+            style={{ width: '95%', borderColor: '#79CBFA', backgroundColor: bgColor, marginTop: '5px', color: color }}
             className="form-control"
             value={text}
             onChange={(e) => {
@@ -60,7 +70,6 @@ const Item = (prop: Props) => {
             }}
             autoFocus
             onBlur={(e) => {
-              setIsEdit(false);
               onBlur(e.target.value);
             }}
           />
@@ -71,4 +80,4 @@ const Item = (prop: Props) => {
   );
 };
 
-export default Item;
+export default memo(Item);
