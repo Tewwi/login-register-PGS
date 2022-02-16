@@ -1,23 +1,21 @@
 import React from 'react';
 import { Iitem } from '../../../models/list';
-import { AppState } from '../../../redux/reducer';
 import Item from './Item';
 
 interface Props {
-  isLoading: boolean;
-  errorMessage: string;
   listItem?: Iitem[];
+  handleChange(id: number, value: string): void;
 }
 
 const ListItem = (props: Props) => {
-  const { listItem } = props;
+  const { listItem, handleChange } = props;
   return (
     <div style={{ height: '100%', overflowY: 'auto' }}>
       <div>
         {listItem?.map((item, index) => {
           return (
             <div key={index}>
-              <Item item={item} />
+              <Item item={item} setTitle={handleChange} />
             </div>
           );
         })}

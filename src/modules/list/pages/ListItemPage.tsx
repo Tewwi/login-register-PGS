@@ -11,14 +11,29 @@ import ListItem from '../components/ListItem';
 
 const ListPage = () => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
-  const [tempListItem, setTempListItem] = useState(useSelector((state: AppState) => state.list.list));
-  const listItem = useSelector((state: AppState) => state.list.list);
-  //console.log(tempListItem);
-  console.log('temp', tempListItem);
-  console.log('store', listItem);
+  const { listItem } = useSelector((state: AppState) => {
+    return {
+      listItem: state.list.list,
+    };
+  });
+  const temp = listItem?.slice();
+  const [tempListItem, setTempListItem] = useState(temp);
+  // console.log('list state', tempListItem);
+  // console.log('list store', listItem);
 
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
+  const handleChange = (id: number, value: string) => {
+    if (tempListItem) {
+      const newItems = [...tempListItem];
+
+      console.log('abc123: ', newItems);
+      const cloneItem = { ...newItems[+id - 1], title: value };
+      newItems[+id - 1] = cloneItem;
+
+      setTempListItem(newItems);
+    }
+  };
 
   const fetchListData = React.useCallback(async () => {
     setErrorMessage('');
@@ -41,9 +56,10 @@ const ListPage = () => {
     fetchListData();
   }, [fetchListData]);
 
-  useEffect(() => {
-    console.log('aaa');
-  }, [listItem]);
+  // useEffect(() => {
+  //   console.log('aa');
+  //   if (listItem) setTempListItem([...listItem]);
+  // }, [listItem]);
 
   return (
     <div
@@ -62,9 +78,8 @@ const ListPage = () => {
             className="btn btn-primary"
             style={{ margin: '0px 15px' }}
             onClick={() => {
-              if (tempListItem) {
-                dispatch(setListItemData(tempListItem));
-                //setTempListItem(listItem);
+              if (tempListItem && listItem) {
+                setTempListItem([...listItem]);
               }
             }}
           >
@@ -76,7 +91,7 @@ const ListPage = () => {
             className="btn btn-primary"
             onClick={() => {
               if (tempListItem) {
-                setTempListItem(listItem);
+                dispatch(setListItemData([...tempListItem]));
               }
             }}
           >
@@ -84,7 +99,12 @@ const ListPage = () => {
           </button>
         </div>
       </div>
-      {loading === false && <ListItem listItem={tempListItem} isLoading={loading} errorMessage={errorMessage} />}
+      {loading && (
+        <div className="spinner-border" role="status" style={{ margin: 'auto' }}>
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      )}
+      {loading === false && <ListItem listItem={tempListItem} handleChange={handleChange} />}
     </div>
   );
 };

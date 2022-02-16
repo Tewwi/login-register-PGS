@@ -1,6 +1,5 @@
 import React, { memo } from 'react';
 import { Iitem } from '../../../models/list';
-import { setSingleItem } from '../redux/listReducer';
 import { ThunkDispatch } from 'redux-thunk';
 import { useDispatch } from 'react-redux';
 import { AppState } from '../../../redux/reducer';
@@ -8,23 +7,33 @@ import { Action } from 'redux';
 
 interface Props {
   item: Iitem;
+  setTitle(id: number, value: string): void;
 }
 
 const Item = (prop: Props) => {
   const { id, title, thumbnailUrl } = prop.item;
-  const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
+  const setTitle = prop.setTitle;
+  //const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const [isEdit, setIsEdit] = React.useState(false);
   const [text, setText] = React.useState(title);
   const color = id % 2 === 0 ? 'grey' : 'white';
   const onBlur = React.useCallback(
     (text: string) => {
-      dispatch(setSingleItem({ id: +id, value: text }));
+      if (id && text) {
+        console.log('title', title);
+
+        setTitle(id, text);
+        setText(title);
+        setIsEdit(false);
+      }
+      console.log('change');
     },
-    [dispatch, id],
+    [setTitle, id, title],
   );
   React.useEffect(() => {
     setText(title);
   }, [title]);
+
   return (
     <div
       className="d-flex mx-auto mt-3"
@@ -52,9 +61,13 @@ const Item = (prop: Props) => {
         {isEdit && (
           <input
             type="text"
-            style={{ width: '100%' }}
+            style={{ width: '95%', borderColor: '#79CBFA' }}
+            className="form-control"
             value={text}
-            onChange={(e) => setText(e.target.value)}
+            onChange={(e) => {
+              setText(e.target.value);
+            }}
+            autoFocus
             onBlur={(e) => {
               setIsEdit(false);
               onBlur(e.target.value);
