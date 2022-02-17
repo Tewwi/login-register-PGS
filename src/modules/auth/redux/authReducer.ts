@@ -31,7 +31,7 @@ export default function reducer(state: AuthState = {}, action: Action) {
     case getType(setUserInfo):
       return { ...state, user: action.data };
     case getType(resetData):
-      console.log(state);
+      //console.log(state);
       return {};
     default:
       return state;

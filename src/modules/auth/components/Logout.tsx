@@ -10,7 +10,11 @@ import { ACCESS_TOKEN_KEY } from '../../../utils/constants';
 import { ThunkDispatch } from 'redux-thunk';
 import { resetData } from '../redux/authReducer';
 
-const LogOut = () => {
+interface Prop {
+  classBtn: string;
+}
+
+const LogOut = (props: Prop) => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const auth = Cookies.get(ACCESS_TOKEN_KEY);
   const onLogOut = () => {
@@ -23,14 +27,13 @@ const LogOut = () => {
     }
   };
   return (
-    <button
-      className="btn btn-primary"
+    <div
+      className={props.classBtn}
       onClick={onLogOut}
-      type="button"
-      style={{ minWidth: '160px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
     >
       <FormattedMessage id="logout" />
-    </button>
+    </div>
   );
 };
 

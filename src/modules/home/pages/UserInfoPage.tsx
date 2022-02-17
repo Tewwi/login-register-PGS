@@ -28,7 +28,9 @@ const UserInfo = () => {
               <h5 className="my-3">{name}</h5>
               <p className="my-3">{email}</p>
               <div className="d-flex" style={{ justifyContent: 'center' }}>
-                <LogOut />
+                <div style={{ width: '160px' }}>
+                  <LogOut classBtn="btn btn-primary" />
+                </div>
               </div>
             </div>
           </div>

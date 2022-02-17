@@ -47,3 +47,7 @@
 .list-text-title:hover {
   border: 1px solid #6a9fee;
 }
+
+.text-white {
+  color: white;
+}

@@ -7,11 +7,11 @@ import { avatarDefault } from '../../../utils/constants';
 import Cookies from 'js-cookie';
 import { ROUTES } from '../../../configs/routes';
 import { ACCESS_TOKEN_KEY } from '../../../utils/constants';
+import LogOut from '../../auth/components/Logout';
 
 const Navbar = () => {
-  const { name, avatar } = useSelector((state: AppState) => {
+  const { avatar } = useSelector((state: AppState) => {
     return {
-      name: state.profile.user?.name,
       avatar: state.profile.user?.avatar,
     };
   });
@@ -41,17 +41,18 @@ const Navbar = () => {
           </div>
         </div>
         {auth && (
-          <div className="px-4">
+          <div className="px-4 d-flex">
+            <p style={{ margin: 'auto' }}>
+              <LogOut classBtn="btn text-white" />
+            </p>
             <Link
-              className="nav-link  d-flex"
+              className="nav-link"
               to={ROUTES.userInfo}
               id="navbarDropdown"
               role="button"
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              <p style={{ color: 'white', margin: 'auto', paddingRight: '10px' }}>{name}</p>
-
               <img src={src} width="40" height="40" className="rounded-circle" />
             </Link>
           </div>

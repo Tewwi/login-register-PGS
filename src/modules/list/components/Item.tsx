@@ -27,7 +27,6 @@ const Item = (prop: Props) => {
     [dispatch, id],
   );
   React.useEffect(() => {
-    // console.log('title change');
     setText(title);
   }, [title]);
 
@@ -54,12 +53,7 @@ const Item = (prop: Props) => {
         }}
       />
       <div style={{ flex: '1' }}>
-        {!isEdit && (
-          <h4 className="list-text-title" style={{ color: color, cursor: 'text' }} onClick={() => setIsEdit(true)}>
-            {text}
-          </h4>
-        )}
-        {isEdit && (
+        {isEdit ? (
           <input
             type="text"
             style={{ width: '95%', borderColor: '#79CBFA', backgroundColor: bgColor, marginTop: '5px', color: color }}
@@ -73,6 +67,10 @@ const Item = (prop: Props) => {
               onBlur(e.target.value);
             }}
           />
+        ) : (
+          <h4 className="list-text-title" style={{ color: color, cursor: 'text' }} onClick={() => setIsEdit(true)}>
+            {text}
+          </h4>
         )}
         <p style={{ fontSize: '15px' }}>{Date.now()}</p>
       </div>

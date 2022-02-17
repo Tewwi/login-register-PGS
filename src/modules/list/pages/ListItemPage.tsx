@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { RefObject, useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppState } from '../../../redux/reducer';
@@ -11,35 +11,62 @@ import ListItem from '../components/ListItem';
 
 const ListPage = () => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
-  const { listItem } = useSelector((state: AppState) => {
-    return {
-      listItem: state.list.list,
-    };
-  });
+  const listItem = useSelector((state: AppState) => state.list.list);
   const [tempListItem, setTempListItem] = useState(listItem);
-  // console.log('state', tempListItem);
-  // console.log('store', listItem);
+  const [fetchInfo, setFetchInfo] = useState({
+    start: 0,
+    end: 20,
+    itemPerLoad: 10,
+  });
 
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
+  const obsever = useRef<any | null>(null);
+  const lastItemRef = useCallback(
+    (node: HTMLDivElement) => {
+      if (loading) return;
+      if (obsever.current) obsever.current.disconnect();
+      obsever.current = new IntersectionObserver((e) => {
+        if (e[0].isIntersecting) {
+          setFetchInfo((prev) => {
+            return {
+              start: prev.end,
+              end: prev.end + prev.itemPerLoad,
+              itemPerLoad: prev.itemPerLoad,
+            };
+          });
+        }
+      });
+      if (node) obsever.current.observe(node);
+    },
+    [loading],
+  );
 
   const fetchListData = React.useCallback(async () => {
     setErrorMessage('');
     setLoading(true);
 
-    const json = await dispatch(fetchThunk(API_PATHS.list, 'get'));
+    const json = await dispatch(fetchThunk(`${API_PATHS.list}?_start=${fetchInfo.start}&_end=${fetchInfo.end}`, 'get'));
 
     setLoading(false);
 
     if (json) {
-      setTempListItem(json);
-      dispatch(setListItemData(json));
-      return;
+      if (tempListItem?.length !== 0 && tempListItem) {
+        const newList = tempListItem.concat(json);
+        console.log(newList);
+        setTempListItem(newList);
+        dispatch(setListItemData(newList));
+        return;
+      } else {
+        setTempListItem(json);
+        dispatch(setListItemData(json));
+        return;
+      }
     }
 
     setErrorMessage(getErrorMessageResponse(json));
     return;
-  }, [dispatch]);
+  }, [dispatch, fetchInfo]);
 
   useEffect(() => {
     fetchListData();
@@ -59,7 +86,7 @@ const ListPage = () => {
         margin: '30px auto',
       }}
     >
-      {loading ? (
+      {loading && tempListItem?.length === 0 ? (
         <div className="spinner-border" role="status" style={{ margin: 'auto' }}>
           <span className="visually-hidden">Loading...</span>
         </div>
@@ -94,7 +121,7 @@ const ListPage = () => {
               </button>
             </div>
           </div>
-          <ListItem listItem={listItem} />
+          <ListItem loading={loading} lastItemRef={lastItemRef} listItem={listItem} />
         </div>
       )}
     </div>
