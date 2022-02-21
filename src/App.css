@@ -51,3 +51,87 @@
 .text-white {
   color: white;
 }
+
+.table-input-width {
+  width: 130px;
+}
+
+.table-row {
+  background-color: #80808021;
+  border-bottom: 10px solid white;
+}
+
+/* ============= Modal ================= */
+
+.modal_btn_detail {
+  width: 100px;
+  height: 30px;
+  font-size: 13px;
+  border: 1px solid #143566;
+  border-radius: 20px;
+  background-color: transparent;
+  text-align: center;
+}
+
+.modal_btn_detail p {
+  color: #143566;
+  line-height: 2;
+}
+
+.modal_btn_delete {
+  width: 40px;
+  height: 30px;
+  font-size: 13px;
+  /* border: 1px solid #e21414; */
+  border-radius: 20px;
+  background-color: transparent;
+  text-align: center;
+}
+
+.modal_btn_delete p {
+  color: #e21414;
+  line-height: 2;
+}
+
+.modal {
+  display: flex;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(10px);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+
+.modal_deltail_content {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  z-index: 2;
+  height: 80vh;
+  width: 70vh;
+  background-color: white;
+  justify-content: center;
+}
+
+.modal_delete_content {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%);
+  z-index: 2;
+  height: 30vh;
+  width: 70vh;
+  background-color: white;
+  justify-content: center;
+}
+.btn-grp {
+  margin: auto;
+}

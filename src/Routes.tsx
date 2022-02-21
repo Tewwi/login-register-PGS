@@ -10,6 +10,7 @@ const ContactPage = lazy(() => import('./modules/home/pages/ContactPage'));
 const LoginPage = lazy(() => import('./modules/auth/pages/LoginPage'));
 const RegisterPage = lazy(() => import('./modules/auth/pages/RegisterPage'));
 const ListItemPage = lazy(() => import('./modules/list/pages/ListItemPage'));
+const TablePage = lazy(() => import('./modules/table/page/TablePage'));
 
 interface Props {}
 
@@ -23,6 +24,7 @@ export const Routes = (props: Props) => {
         <Route path={ROUTES.list} component={ListItemPage} />
         <Route path={ROUTES.login} component={LoginPage} />
         <Route path={ROUTES.register} component={RegisterPage} />
+        <Route path={ROUTES.table} component={TablePage} />
         <ProtectedRoute path={ROUTES.home} component={HomePage} />
         <ProtectedRoute path={ROUTES.userInfo} component={UserPage} />
         <Route path={ROUTES.contact} component={ContactPage} />

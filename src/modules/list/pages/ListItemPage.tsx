@@ -1,4 +1,4 @@
-import React, { RefObject, useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppState } from '../../../redux/reducer';
@@ -25,6 +25,7 @@ const ListPage = () => {
   const lastItemRef = useCallback(
     (node: HTMLDivElement) => {
       if (loading) return;
+      if (errorMessage.length > 0) return;
       if (obsever.current) obsever.current.disconnect();
       obsever.current = new IntersectionObserver((e) => {
         if (e[0].isIntersecting) {
