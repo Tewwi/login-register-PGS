@@ -7,5 +7,7 @@ export const mockData = LIST_PAYROLL.payrolls.map((item) => {
     return { ...item, status: 'Processed' };
   } else if (item.date_received) {
     return { ...item, status: 'Received' };
+  } else if (item.date_canceled) {
+    return { ...item, status: 'Canceled' };
   } else return { ...item, status: 'Pending' };
 });

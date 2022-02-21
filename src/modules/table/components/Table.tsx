@@ -14,7 +14,7 @@ const Table = (props: Props) => {
         <tr>
           <th scope="col">Status</th>
           <th scope="col">Date</th>
-          <th scope="col">Client</th>
+          {/* <th scope="col">Client</th> */}
           <th scope="col">Currency</th>
           <th scope="col">Total</th>
           <th scope="col">Invoice #</th>

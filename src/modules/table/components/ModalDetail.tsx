@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from './Modal';
 import { statusType } from '../constants';
 import { ITableItem } from '../../../models/table';
@@ -8,6 +8,8 @@ import { ThunkDispatch } from 'redux-thunk';
 import { AppState } from '../../../redux/reducer';
 import { Action } from 'typesafe-actions';
 import { setSingleItem } from '../redux/tableRedux';
+import { InputValidation, validateItemInput, validItemInput } from '../utils';
+import { FormattedMessage } from 'react-intl';
 
 interface Props {
   item: ITableItem;
@@ -17,6 +19,8 @@ const ModalDetail = (props: Props) => {
   const { item } = props;
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const [newData, setNewData] = useState(item);
+  const [validate, setValidate] = useState<InputValidation>();
+  const [check, setCheck] = useState(true);
   const btnValue = {
     modalBtn: {
       value: 'View more',
@@ -35,6 +39,10 @@ const ModalDetail = (props: Props) => {
     dispatch(setSingleItem(newData));
   };
 
+  useEffect(() => {
+    setValidate(undefined);
+  }, [check]);
+
   return (
     <Modal
       modalBtn={btnValue.modalBtn}
@@ -42,6 +50,7 @@ const ModalDetail = (props: Props) => {
       rightBtn={btnValue.rightBtn}
       modelClass="modal_deltail_content"
       onClick={handleSave}
+      validate={check}
     >
       <div style={{ margin: 'auto' }}>Item Detail</div>
       <form
@@ -83,12 +92,6 @@ const ModalDetail = (props: Props) => {
                 setNewData({ ...newData, time_created: e.target.value });
               }}
             />
-          </div>
-        </div>
-        <div className="col-md-12">
-          <div className="form-group">
-            <label htmlFor="client">Client</label>
-            <input type="text" className="form-control" id="client" defaultValue={'PGS'} />
           </div>
         </div>
         <div className="col-md-12">

@@ -11,9 +11,10 @@ interface Props {
   leftBtn: Element;
   rightBtn: Element;
   onClick(): void;
+  validate?: boolean;
 }
 
-const Modal: FC<Props> = ({ modalBtn, modelClass, children, leftBtn, rightBtn, onClick }) => {
+const Modal: FC<Props> = ({ modalBtn, modelClass, children, leftBtn, rightBtn, onClick, validate }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <>

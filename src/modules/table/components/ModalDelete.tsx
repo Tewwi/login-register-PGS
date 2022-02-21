@@ -43,7 +43,7 @@ const ModalDelete = (props: Props) => {
       >
         <div style={{ margin: 'auto' }}>Delete Item</div>
         <div style={{ margin: 'auto' }}>
-          <p>Are you sure you want to delete it?</p>
+          <p>You sure want delete it?</p>
         </div>
       </Modal>
     </div>

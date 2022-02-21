@@ -11,7 +11,7 @@ export interface tableState {
 export interface filterTable {
   type: 'status' | 'payroll_id' | 'time_created';
   value: string | number;
-  payload?: string;
+  value2?: string;
 }
 
 export const setTableData = createCustomAction('table/setTableData', (data: ITableItem[]) => ({
@@ -51,7 +51,12 @@ export default function reducer(state: tableState = {}, action: Action) {
       const newData = state.item?.filter((item) => {
         const result = [];
         for (let i = 0; i < filter.length; i++) {
-          if (filter[i].value === '') {
+          const check = filter[i].value2 === '' && filter[i].value === '';
+          if (check) {
+            result.push(true);
+            continue;
+          }
+          if (filter[i].value === '' && filter[i].value2 === undefined) {
             result.push(true);
             continue;
           }
@@ -65,7 +70,7 @@ export default function reducer(state: tableState = {}, action: Action) {
             result.push(true);
           }
         }
-        return result.length == 3;
+        return result.length === 3;
       });
       return { ...state, tempItem: newData };
     }

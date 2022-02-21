@@ -23,7 +23,7 @@ const TablePage = () => {
 
   const handleChangePage = (num: number) => {
     if (dataTable) {
-      if (num === 1 || num === dataTable?.length - 1) return;
+      if (num === 0 || num === Math.ceil(pageInfo.totalItem / 10) + 1) return;
       setPageInfo((prev) => {
         return { ...prev, page: num, currItem: num * pageInfo.itemPerPage - 10 };
       });

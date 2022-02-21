@@ -15,7 +15,7 @@ const validateEmail = (email: string) => {
 
 const validatePassword = (password: string) => {
   if (!password) {
-    return 'passwordRequire'; 
+    return 'passwordRequire';
   }
 
   if (password.length < 4) {
@@ -27,27 +27,27 @@ const validatePassword = (password: string) => {
 
 const validateRePassword = (password: string, repassword: string) => {
   if (!repassword) {
-    return 'passwordRequire'; 
+    return 'passwordRequire';
   }
 
   if (repassword.length < 4) {
     return 'minPasswordInvalid';
   }
 
-  if(repassword !== password) {
-    return 'wrongRePassword'
+  if (repassword !== password) {
+    return 'wrongRePassword';
   }
 
   return '';
 };
 
-const validateEmptyField = (fieldValue: string | number) => {
-  if(!fieldValue) {
+export const validateEmptyField = (fieldValue: string | number) => {
+  if (!fieldValue) {
     return 'valueRequire';
   }
 
   return '';
-}
+};
 
 export const validateLogin = (values: ILoginParams): ILoginValidation => {
   return {

@@ -102,7 +102,8 @@
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 1;
+  z-index: 4;
+  align-items: center;
 }
 
 .modal_deltail_content {
@@ -112,7 +113,7 @@
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
-  z-index: 2;
+  z-index: 5;
   height: 80vh;
   width: 70vh;
   background-color: white;
@@ -125,8 +126,8 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%);
-  z-index: 2;
+  transform: translateX(-50%) translateY(-50%);
+  z-index: 5;
   height: 30vh;
   width: 70vh;
   background-color: white;

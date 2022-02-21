@@ -29,11 +29,17 @@ const Footer = (props: Props) => {
       });
     }
     return;
-  }, [props.currPage, lastPage]);
+  }, [props.currPage, lastPage, displayPage.start, displayPage.end]);
 
   useEffect(() => {
     changeDisplayPage();
   }, [changeDisplayPage]);
+
+  useEffect(() => {
+    if (props.currPage === 1) {
+      setDisplayPage({ start: 0, end: 4 });
+    }
+  }, [props.currPage]);
 
   return (
     <div className="d-flex justify-content-between">
