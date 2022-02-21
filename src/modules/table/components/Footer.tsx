@@ -11,6 +11,8 @@ const Footer = (props: Props) => {
   const lastPage = Math.ceil(props.totalPage);
   const [displayPage, setDisplayPage] = useState({ start: 0, end: 4 });
   const totalPage = Array.from(Array(lastPage).keys()).slice(displayPage.start, displayPage.end);
+  const itemPerPage =
+    props.totalPage * props.itemPerPage >= 10 ? props.itemPerPage : props.totalPage * props.itemPerPage;
   const changeDisplayPage = useCallback(() => {
     if (lastPage < 4) return;
     if (props.currPage === 1) {
@@ -36,7 +38,7 @@ const Footer = (props: Props) => {
   return (
     <div className="d-flex justify-content-between">
       <p>
-        Showing {props.itemPerPage} from {props.totalPage * props.itemPerPage}
+        Showing {itemPerPage} from {props.totalPage * props.itemPerPage}
       </p>
       <div className="d-flex">
         <nav aria-label="Page navigation example">

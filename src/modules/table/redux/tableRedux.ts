@@ -62,7 +62,6 @@ export default function reducer(state: tableState = {}, action: Action) {
             result.push(true);
           }
           if (filter[i].type === 'time_created' && filterByDate(item.time_created, filter[i])) {
-            console.log(filter[i]);
             result.push(true);
           }
         }
