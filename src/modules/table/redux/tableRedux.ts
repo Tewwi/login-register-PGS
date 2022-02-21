@@ -34,7 +34,9 @@ export const deleteItem = createCustomAction('table/deleteItem', (id: string) =>
   id,
 }));
 
-const actions = { setTableData, filterTableData, setTableTempData, setSingleItem, deleteItem };
+export const sortData = createCustomAction('table/sortData', () => ({}));
+
+const actions = { setTableData, filterTableData, setTableTempData, setSingleItem, deleteItem, sortData };
 
 //Tạo action type(?)
 type Action = ActionType<typeof actions>;
@@ -86,6 +88,12 @@ export default function reducer(state: tableState = {}, action: Action) {
     case getType(deleteItem): {
       const newData = state.item?.filter((item) => {
         return item.payroll_id !== action.id;
+      });
+      return { ...state, item: newData, tempItem: newData };
+    }
+    case getType(sortData): {
+      const newData = state.tempItem?.sort((a, b) => {
+        return +new Date(a.time_created) - +new Date(b.time_created);
       });
       return { ...state, item: newData, tempItem: newData };
     }

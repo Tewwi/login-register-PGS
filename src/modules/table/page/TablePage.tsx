@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppState } from '../../../redux/reducer';
 import { Action } from 'redux';
-import { setTableData, setTableTempData } from '../redux/tableRedux';
+import { setTableData, setTableTempData, sortData } from '../redux/tableRedux';
 import { ITableItem } from '../../../models/table';
 import Footer from '../components/Footer';
 
@@ -27,6 +27,13 @@ const TablePage = () => {
       setPageInfo((prev) => {
         return { ...prev, page: num, currItem: num * pageInfo.itemPerPage - 10 };
       });
+    }
+  };
+
+  const sortDatabyDate = () => {
+    if (data) {
+      dispatch(sortData());
+      setPageInfo({ page: 1, currItem: 0, itemPerPage: 10, totalItem: data.length });
     }
   };
 
@@ -57,7 +64,7 @@ const TablePage = () => {
       </div>
       <div>
         <Filter />
-        {dataTable && <Table data={dataTable} />}
+        {dataTable && <Table data={dataTable} sort={sortDatabyDate} />}
         {dataTable && (
           <Footer
             currPage={+pageInfo.page}

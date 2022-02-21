@@ -20,7 +20,6 @@ const ModalDetail = (props: Props) => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const [newData, setNewData] = useState(item);
   const [validate, setValidate] = useState<InputValidation>();
-  const [check, setCheck] = useState(true);
   const btnValue = {
     modalBtn: {
       value: 'View more',
@@ -41,7 +40,7 @@ const ModalDetail = (props: Props) => {
 
   useEffect(() => {
     setValidate(undefined);
-  }, [check]);
+  }, []);
 
   return (
     <Modal
@@ -50,7 +49,6 @@ const ModalDetail = (props: Props) => {
       rightBtn={btnValue.rightBtn}
       modelClass="modal_deltail_content"
       onClick={handleSave}
-      validate={check}
     >
       <div style={{ margin: 'auto' }}>Item Detail</div>
       <form
