@@ -1,5 +1,6 @@
 import { ActionType, createCustomAction, getType } from 'typesafe-actions';
 import { ITableItem } from '../../../models/table';
+import { filterByDate } from '../utils';
 // typesafe-actions để tạo action(?)
 
 export interface tableState {
@@ -8,7 +9,7 @@ export interface tableState {
 }
 
 export interface filterTable {
-  type: 'status' | 'volume_input_in_input_currency' | 'time_created';
+  type: 'status' | 'payroll_id' | 'time_created';
   value: string | number;
   payload?: string;
 }
@@ -48,17 +49,24 @@ export default function reducer(state: tableState = {}, action: Action) {
     case getType(filterTableData): {
       const filter = action.data;
       const newData = state.item?.filter((item) => {
+        const result = [];
         for (let i = 0; i < filter.length; i++) {
-          if (filter[i].value === '') return true;
-          if (
-            //filter dropdown
-            item[`${filter[i].type}`] === filter[i].value ||
-            //filter invoice
-            item[`${filter[i].type}`].toString().includes(filter[i].value.toString())
-          ) {
-            return true;
-          } else return false;
+          if (filter[i].value === '') {
+            result.push(true);
+            continue;
+          }
+          if (filter[i].type === 'status' && item[`${filter[i].type}`] === filter[i].value) {
+            result.push(true);
+          }
+          if (filter[i].type === 'payroll_id' && item[`payroll_id`].includes(filter[i].value.toString())) {
+            result.push(true);
+          }
+          if (filter[i].type === 'time_created' && filterByDate(item.time_created, filter[i])) {
+            console.log(filter[i]);
+            result.push(true);
+          }
         }
+        return result.length == 3;
       });
       return { ...state, tempItem: newData };
     }
