@@ -37,6 +37,11 @@ const Navbar = () => {
                   List Data
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to={ROUTES.table}>
+                  Table
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
