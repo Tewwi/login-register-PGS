@@ -47,9 +47,9 @@ const Navbar = () => {
         </div>
         {auth && (
           <div className="px-4 d-flex">
-            <p style={{ margin: 'auto' }}>
+            <div style={{ margin: 'auto' }}>
               <LogOut classBtn="btn text-white" />
-            </p>
+            </div>
             <Link
               className="nav-link"
               to={ROUTES.userInfo}

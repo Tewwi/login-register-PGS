@@ -136,3 +136,24 @@
 .btn-grp {
   margin: auto;
 }
+
+/* =============== User Page ===================== */
+
+.hidden-text {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 3%;
+  transform: translateY(-50%);
+  text-align: center;
+  cursor: pointer;
+}
+
+.img-hover:hover .hidden-text {
+  display: block !important;
+  z-index: 20;
+}
+
+.img-hover:hover .img {
+  opacity: 0.5;
+}

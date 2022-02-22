@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Filter from '../components/Filter';
 import Table from '../components/Table';
 import { mockData } from '../../../configs/mock-data';
@@ -16,26 +16,35 @@ const TablePage = () => {
   const [pageInfo, setPageInfo] = useState({
     page: 1,
     currItem: 0,
-    itemPerPage: 10,
+    itemPerPage: 5,
     totalItem: mockData.length,
   });
   const data = useSelector((state: AppState) => state.table.tempItem);
+  const handleChangePage = useCallback(
+    (num: number) => {
+      if (dataTable) {
+        if (num === 0 || num === Math.ceil(pageInfo.totalItem / pageInfo.itemPerPage) + 1) return;
 
-  const handleChangePage = (num: number) => {
-    if (dataTable) {
-      if (num === 0 || num === Math.ceil(pageInfo.totalItem / 10) + 1) return;
-      setPageInfo((prev) => {
-        return { ...prev, page: num, currItem: num * pageInfo.itemPerPage - 10 };
-      });
-    }
-  };
+        setPageInfo((prev) => {
+          return { ...prev, page: num, currItem: num * pageInfo.itemPerPage - pageInfo.itemPerPage };
+        });
+      }
+    },
+    [dataTable, pageInfo.totalItem, pageInfo.itemPerPage],
+  );
 
-  const sortDatabyDate = () => {
+  const sortDatabyDate = useCallback(() => {
     if (data) {
       dispatch(sortData());
-      setPageInfo({ page: 1, currItem: 0, itemPerPage: 10, totalItem: data.length });
+      setPageInfo({ page: 1, currItem: 0, itemPerPage: 5, totalItem: data.length });
     }
-  };
+  }, [dispatch, data]);
+
+  const changeItemPerPage = useCallback((num: number) => {
+    setPageInfo((prev) => {
+      return { ...prev, itemPerPage: num, page: 1, currItem: 0 };
+    });
+  }, []);
 
   useEffect(() => {
     dispatch(setTableData(mockData));
@@ -50,7 +59,9 @@ const TablePage = () => {
 
   useEffect(() => {
     if (data) {
-      setPageInfo({ page: 1, currItem: 0, itemPerPage: 10, totalItem: data.length });
+      setPageInfo((prev) => {
+        return { ...prev, totalItem: data.length };
+      });
     }
   }, [data]);
 
@@ -71,6 +82,7 @@ const TablePage = () => {
             totalPage={+(pageInfo.totalItem / pageInfo.itemPerPage)}
             itemPerPage={+pageInfo.itemPerPage}
             handleChangePage={handleChangePage}
+            handleChangeItemPerPage={changeItemPerPage}
           />
         )}
       </div>

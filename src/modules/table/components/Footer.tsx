@@ -5,14 +5,16 @@ interface Props {
   itemPerPage: number;
   currPage: number;
   handleChangePage(num: number): void;
+  handleChangeItemPerPage(num: number): void;
 }
 
 const Footer = (props: Props) => {
   const lastPage = Math.ceil(props.totalPage);
   const [displayPage, setDisplayPage] = useState({ start: 0, end: 4 });
   const totalPage = Array.from(Array(lastPage).keys()).slice(displayPage.start, displayPage.end);
-  const itemPerPage =
-    props.totalPage * props.itemPerPage >= 10 ? props.itemPerPage : props.totalPage * props.itemPerPage;
+  // const itemPerPage =
+  //   props.totalPage * props.itemPerPage >= 10 ? props.itemPerPage : props.totalPage * props.itemPerPage;
+  const pages = [5, 10, 15, 20];
   const changeDisplayPage = useCallback(() => {
     if (lastPage < 4) return;
     if (props.currPage === 1) {
@@ -43,9 +45,29 @@ const Footer = (props: Props) => {
 
   return (
     <div className="d-flex justify-content-between">
-      <p>
-        Showing {itemPerPage} from {props.totalPage * props.itemPerPage}
-      </p>
+      <div className="d-flex">
+        <p>Showing</p>
+        <div className="px-1">
+          <select
+            className="form-select"
+            aria-label="Default select example"
+            defaultValue={props.itemPerPage}
+            onChange={(e) => {
+              props.handleChangeItemPerPage(+e.target.value);
+            }}
+            style={{ lineHeight: '1' }}
+          >
+            {pages.map((item) => {
+              return (
+                <option key={item} value={item}>
+                  {item}
+                </option>
+              );
+            })}
+          </select>
+        </div>
+        <p>from {props.totalPage * props.itemPerPage}</p>
+      </div>
       <div className="d-flex">
         <nav aria-label="Page navigation example">
           <ul className="pagination">

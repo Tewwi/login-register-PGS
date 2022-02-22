@@ -10,6 +10,7 @@ const ContactPage = lazy(() => import('./modules/home/pages/ContactPage'));
 const LoginPage = lazy(() => import('./modules/auth/pages/LoginPage'));
 const RegisterPage = lazy(() => import('./modules/auth/pages/RegisterPage'));
 const ListItemPage = lazy(() => import('./modules/list/pages/ListItemPage'));
+const PhotoDetail = lazy(() => import('./modules/list/pages/PhotoDetail'));
 const TablePage = lazy(() => import('./modules/table/page/TablePage'));
 
 interface Props {}
@@ -22,6 +23,7 @@ export const Routes = (props: Props) => {
       <Navbar />
       <Switch location={location}>
         <Route path={ROUTES.list} component={ListItemPage} />
+        <Route path={`${ROUTES.photo}/:id`} component={PhotoDetail} />
         <Route path={ROUTES.login} component={LoginPage} />
         <Route path={ROUTES.register} component={RegisterPage} />
         <Route path={ROUTES.table} component={TablePage} />

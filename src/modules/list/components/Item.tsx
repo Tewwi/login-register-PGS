@@ -5,6 +5,8 @@ import { ThunkDispatch } from 'redux-thunk';
 import { AppState } from '../../../redux/reducer';
 import { Action } from 'redux';
 import { setSingleItem } from '../redux/listReducer';
+import { Link } from 'react-router-dom';
+import { ROUTES } from '../../../configs/routes';
 
 interface Props {
   item: Iitem;
@@ -40,18 +42,22 @@ const Item = (prop: Props) => {
         backgroundColor: bgColor,
       }}
     >
-      <img
-        className="mx-3 rounded-circle"
-        src={thumbnailUrl}
-        alt="a"
-        style={{
-          objectFit: 'cover',
-          height: '50px',
-          width: '50px',
-          alignItems: 'center',
-          margin: 'auto',
-        }}
-      />
+      <div style={{ alignItems: 'center', margin: 'auto' }}>
+        <Link to={`${ROUTES.photo}/${id}`}>
+          <img
+            className="mx-3 rounded-circle"
+            src={thumbnailUrl}
+            alt="a"
+            style={{
+              objectFit: 'cover',
+              height: '50px',
+              width: '50px',
+              alignItems: 'center',
+              margin: 'auto',
+            }}
+          />
+        </Link>
+      </div>
       <div style={{ flex: '1' }}>
         {isEdit ? (
           <input
