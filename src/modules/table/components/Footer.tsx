@@ -35,7 +35,7 @@ const Footer = (props: Props) => {
 
   useEffect(() => {
     changeDisplayPage();
-  }, [changeDisplayPage]);
+  }, [changeDisplayPage, props.itemPerPage]);
 
   useEffect(() => {
     if (props.currPage === 1) {

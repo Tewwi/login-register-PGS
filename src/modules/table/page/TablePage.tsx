@@ -63,7 +63,6 @@ const TablePage = () => {
   useEffect(() => {
     if (data) {
       if (data.length != pageInfo.totalItem) {
-        console.log('reset page');
         setPageInfo({ page: 1, currItem: 0, itemPerPage: 5, totalItem: data.length });
         return;
       }

@@ -12,15 +12,17 @@ interface Props {
   rightBtn: Btn;
   onClick(): void;
   validate?: boolean;
+  btnModal?: () => void;
 }
 
-const Modal: FC<Props> = ({ modalBtn, modelClass, children, leftBtn, rightBtn, onClick, validate }) => {
+const Modal: FC<Props> = ({ modalBtn, modelClass, children, leftBtn, rightBtn, onClick, validate, btnModal }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <>
       <div
         className={modalBtn.classStyle}
         onClick={() => {
+          if (btnModal !== undefined) btnModal();
           setIsModalOpen(!isModalOpen);
         }}
         style={{ cursor: 'pointer' }}

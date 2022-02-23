@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppState } from '../../../redux/reducer';
 import logo from '../../../logo-420-x-108.png';
-import { avatarDefault } from '../../../utils/constants';
+import { APIpath, avatarDefault } from '../../../utils/constants';
 import Cookies from 'js-cookie';
 import { ROUTES } from '../../../configs/routes';
 import { ACCESS_TOKEN_KEY } from '../../../utils/constants';
@@ -16,7 +16,7 @@ const Navbar = () => {
     };
   });
   const auth = Cookies.get(ACCESS_TOKEN_KEY);
-  const src = avatar ? avatar : avatarDefault;
+  const src = avatar ? `${APIpath}/${avatar}` : avatarDefault;
 
   return (
     <nav className="navbar navbar-dark bg-dark navbar-expand-sm">
@@ -58,7 +58,7 @@ const Navbar = () => {
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              <img src={src} width="40" height="40" className="rounded-circle" />
+              <img src={src} width="40" height="40" className="rounded-circle" style={{ objectFit: 'cover' }} />
             </Link>
           </div>
         )}

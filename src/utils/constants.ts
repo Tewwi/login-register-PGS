@@ -4,4 +4,6 @@ export const APIHost = development ? '/api' : 'https://google.com';
 
 export const ACCESS_TOKEN_KEY = 'token';
 
+export const APIpath = 'http://api.training.div3.pgtest.co';
+
 export const avatarDefault = 'https://sbcf.fr/wp-content/uploads/2018/03/sbcf-default-avatar.png';

@@ -81,8 +81,6 @@ export default function reducer(state: tableState = {}, action: Action) {
       const newData = state.item?.map((item, index) => {
         if (item.payroll_id === action.data.payroll_id) {
           item = { ...action.data };
-          console.log(item);
-          console.log(index);
         }
         return item;
       });

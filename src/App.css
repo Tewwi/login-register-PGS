@@ -157,3 +157,23 @@
 .img-hover:hover .img {
   opacity: 0.5;
 }
+
+.modal_btn_avatar {
+  display: none;
+}
+
+.modal_avatar_content {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  z-index: 5;
+  height: 30vh;
+  width: 70vh;
+  background-color: white;
+  justify-content: center;
+  width: 40vw;
+  height: 90vh;
+}
