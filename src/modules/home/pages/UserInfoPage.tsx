@@ -178,11 +178,8 @@ const UserInfo = () => {
               setOpenModal(false);
             }}
           ></div>
-          <div className="modal_avatar_content">
-            <div
-              className="px-2 mt-3
-            "
-            >
+          <div className="modal_avatar_content" style={{ overflowY: 'auto' }}>
+            <div className="px-2 mt-3">
               <ReactCrop
                 src={image ? image : ''}
                 onImageLoaded={onLoad}
