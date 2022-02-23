@@ -54,7 +54,6 @@ const ListPage = () => {
     if (json) {
       if (tempListItem?.length !== 0 && tempListItem) {
         const newList = tempListItem.concat(json);
-        console.log(newList);
         setTempListItem(newList);
         dispatch(setListItemData(newList));
         return;

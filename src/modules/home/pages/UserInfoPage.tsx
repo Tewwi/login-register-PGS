@@ -1,25 +1,53 @@
-import React, { useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router';
+import thunk, { ThunkDispatch } from 'redux-thunk';
+import { Action } from 'typesafe-actions';
+import { API_PATHS } from '../../../configs/api';
+import { ROUTES } from '../../../configs/routes';
 import { AppState } from '../../../redux/reducer';
 import { avatarDefault } from '../../../utils/constants';
+import { RESPONSE_STATUS_SUCCESS } from '../../../utils/httpResponseCode';
 import LogOut from '../../auth/components/Logout';
+import { setUserInfo } from '../../auth/redux/authReducer';
+import { fetchThunk } from '../../common/redux/thunk';
 
 const UserInfo = () => {
-  const { name, email, avatar, state, region } = useSelector((state: AppState) => {
-    return {
-      name: state.profile.user?.name,
-      email: state.profile.user?.email,
-      avatar: state.profile.user?.avatar,
-      state: state.profile.user?.state,
-      region: state.profile.user?.region,
-    };
-  });
-  const src = avatar ? avatar : avatarDefault;
+  const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
+  const location = useLocation();
+  const { user } = useSelector((state: AppState) => state.profile);
+  const [image, setImage] = useState<any>();
+  const src = user?.avatar ? user?.avatar : avatarDefault;
   const inputRef = useRef<any>();
+
+  const getUserData = useCallback(async () => {
+    if (location.pathname === ROUTES.userInfo) {
+      const resp = await dispatch(fetchThunk(API_PATHS.userProfile, 'get'));
+      if (resp.code === RESPONSE_STATUS_SUCCESS) {
+        dispatch(setUserInfo(resp.data));
+      }
+    }
+  }, [dispatch, location.pathname]);
+
   const selectFile = () => {
-    inputRef.current.click();
-    return;
+    if (inputRef.current) {
+      inputRef.current.click();
+    }
   };
+
+  const onSubmit = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    if (e.target.files) {
+      const reader = new FileReader();
+      reader.readAsDataURL(e.target.files[0]);
+      reader.addEventListener('load', () => setImage(reader.result));
+      return;
+    }
+  };
+
+  useEffect(() => {
+    getUserData();
+  }, [getUserData]);
 
   return (
     <div className="container py-5">
@@ -46,23 +74,31 @@ const UserInfo = () => {
                   Update you avatar
                 </p>
               </div>
-              <input ref={inputRef} type="file" hidden name="" id="" />
+
+              <input
+                ref={inputRef}
+                type="file"
+                hidden
+                onChange={(e) => {
+                  onSubmit(e);
+                }}
+              />
               <div style={{ height: '100%', width: '50%', margin: 'auto' }}>
                 <div className="my-1">
                   <h5>Username</h5>
-                  <p>{name}</p>
+                  <p>{user?.name}</p>
                 </div>
                 <div className="my-1">
                   <h5>Email</h5>
-                  <p>{email}</p>
+                  <p>{user?.email}</p>
                 </div>
                 <div className="my-1">
                   <h5>State</h5>
-                  <p>{state}</p>
+                  <p>{user?.state}</p>
                 </div>
                 <div className="my-1">
                   <h5>Region</h5>
-                  <p>{region}</p>
+                  <p>{user?.region}</p>
                 </div>
               </div>
               <div className="d-flex" style={{ justifyContent: 'center' }}>

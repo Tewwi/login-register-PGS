@@ -77,12 +77,16 @@ export default function reducer(state: tableState = {}, action: Action) {
       return { ...state, tempItem: newData };
     }
     case getType(setSingleItem): {
-      const newData = state.item?.map((item) => {
+      console.log(action.data);
+      const newData = state.item?.map((item, index) => {
         if (item.payroll_id === action.data.payroll_id) {
           item = { ...action.data };
+          console.log(item);
+          console.log(index);
         }
         return item;
       });
+
       return { ...state, item: newData, tempItem: newData };
     }
     case getType(deleteItem): {

@@ -18,7 +18,7 @@ interface Props {
 const ModalDetail = (props: Props) => {
   const { item } = props;
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
-  const [newData, setNewData] = useState(item);
+  const [newData, setNewData] = useState<ITableItem | undefined>();
   const [validate, setValidate] = useState<InputValidation>();
   const btnValue = {
     modalBtn: {
@@ -35,12 +35,16 @@ const ModalDetail = (props: Props) => {
     },
   };
   const handleSave = () => {
-    dispatch(setSingleItem(newData));
+    if (newData) {
+      dispatch(setSingleItem(newData));
+    }
   };
 
-  useEffect(() => {
-    setValidate(undefined);
-  }, []);
+  React.useEffect(() => {
+    if (item) {
+      setNewData(item);
+    }
+  }, [item]);
 
   return (
     <Modal
@@ -65,7 +69,7 @@ const ModalDetail = (props: Props) => {
             className="form-select"
             defaultValue={item.status}
             onChange={(e) => {
-              setNewData({ ...newData, status: e.target.value });
+              setNewData({ ...item, status: e.target.value });
             }}
             aria-label="select"
           >
@@ -87,7 +91,7 @@ const ModalDetail = (props: Props) => {
               id="date"
               defaultValue={dayjs(item.time_created).format('YYYY-MM-DD')}
               onChange={(e) => {
-                setNewData({ ...newData, time_created: e.target.value });
+                setNewData({ ...item, time_created: e.target.value });
               }}
             />
           </div>
@@ -99,7 +103,7 @@ const ModalDetail = (props: Props) => {
               type="number"
               className="form-control"
               onChange={(e) => {
-                setNewData({ ...newData, volume_input_in_input_currency: +e.target.value });
+                setNewData({ ...item, volume_input_in_input_currency: +e.target.value });
               }}
               id="total"
               defaultValue={item.volume_input_in_input_currency}

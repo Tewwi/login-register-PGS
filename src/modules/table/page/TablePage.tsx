@@ -19,7 +19,10 @@ const TablePage = () => {
     itemPerPage: 5,
     totalItem: mockData.length,
   });
-  const data = useSelector((state: AppState) => state.table.tempItem);
+  const data = useSelector((state: AppState) => {
+    return state.table.tempItem;
+  });
+
   const handleChangePage = useCallback(
     (num: number) => {
       if (dataTable) {
@@ -59,11 +62,13 @@ const TablePage = () => {
 
   useEffect(() => {
     if (data) {
-      setPageInfo((prev) => {
-        return { ...prev, totalItem: data.length };
-      });
+      if (data.length != pageInfo.totalItem) {
+        console.log('reset page');
+        setPageInfo({ page: 1, currItem: 0, itemPerPage: 5, totalItem: data.length });
+        return;
+      }
     }
-  }, [data]);
+  }, [data, pageInfo.totalItem, pageInfo.currItem, pageInfo.page, pageInfo.itemPerPage]);
 
   return (
     <div className="container">

@@ -1,15 +1,15 @@
 import React, { FC, ReactElement, useState } from 'react';
 
-interface Element {
+interface Btn {
   value: string | ReactElement<any, any>;
   classStyle: string;
 }
 
 interface Props {
-  modalBtn: Element;
+  modalBtn: Btn;
   modelClass: string;
-  leftBtn: Element;
-  rightBtn: Element;
+  leftBtn: Btn;
+  rightBtn: Btn;
   onClick(): void;
   validate?: boolean;
 }

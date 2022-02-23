@@ -10,6 +10,7 @@ interface Props {
 
 const Table = (props: Props) => {
   const { data, sort } = props;
+
   return (
     <table className="table table-borderless">
       <thead>
